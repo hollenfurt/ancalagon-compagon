@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#201a16" />
+  <title>Ancalagon — Compagnon D&D 3.5</title>
+  <link rel="icon" href="icons/icon.svg" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div>
+      <div class="eyebrow">D&D 3.5 · Compagnon Android</div>
+      <h1>Ancalagon</h1>
+      <div class="subtitle">Kobold · Roublard 1 / Ensorceleur 1 · CN · Aasterinian</div>
+    </div>
+  </header>
+
+  <main id="app">
+    <section class="view active" data-view="fiche">
+      <div class="hero-grid">
+        <article class="card hp-card">
+          <span class="label">Points de vie</span>
+          <div class="hp-row"><button data-hp="-1">−</button><strong id="hpNow">14</strong><span>/</span><span id="hpMax">14</span><button data-hp="1">＋</button></div>
+          <input id="hpSlider" type="range" min="0" max="14" value="14" />
+        </article>
+        <button class="card tap-roll" data-roll="1d20+3" data-label="Initiative"><span class="label">Initiative</span><strong>+3</strong><small>Toucher pour lancer</small></button>
+        <article class="card"><span class="label">CA</span><strong class="big">15</strong><small>Armure naturelle incluse</small></article>
+        <article class="card"><span class="label">XP</span><strong class="big">2 100</strong><small>Niveau global 2</small></article>
+      </div>
+
+      <h2>Caractéristiques</h2>
+      <div id="abilities" class="stat-grid"></div>
+
+      <h2>Accès rapide</h2>
+      <div class="quick-grid">
+        <button class="quick tap-roll" data-roll="1d20+4" data-label="Arbalète légère"><b>Arbalète légère</b><span>Attaque +4</span></button>
+        <button class="quick tap-roll" data-roll="1d20+4" data-label="Dague"><b>Dague</b><span>Attaque +4</span></button>
+        <button class="quick tap-roll" data-roll="1d6" data-label="Attaque sournoise"><b>Attaque sournoise</b><span>+1d6</span></button>
+        <button class="quick tap-roll" data-roll="1d20+7" data-label="Discrétion"><b>Discrétion</b><span>+7</span></button>
+      </div>
+    </section>
+
+    <section class="view" data-view="competences">
+      <div class="section-head"><div><h2>Compétences</h2><p>Toucher une compétence lance immédiatement le d20.</p></div><button id="addSkill" class="smallbtn">＋</button></div>
+      <div id="skills" class="list"></div>
+    </section>
+
+    <section class="view" data-view="combat">
+      <h2>Combat</h2>
+      <div class="list" id="combatList"></div>
+      <h2>Jets de sauvegarde</h2>
+      <div class="quick-grid" id="saves"></div>
+    </section>
+
+    <section class="view" data-view="magie">
+      <div class="section-head"><div><h2>Magie</h2><p>Ensorceleur 1 · sorts connus d'Ancalagon</p></div></div>
+      <div id="spells" class="list"></div>
+    </section>
+
+    <section class="view" data-view="dons">
+      <h2>Dons</h2>
+      <div id="feats" class="list"></div>
+    </section>
+
+    <section class="view" data-view="familier">
+      <article class="card familiar-card">
+        <div><span class="eyebrow">Familier</span><h2>Huitzil « Zarok »</h2><p>Dragon Magic · Intelligence 6 · PV 8</p></div>
+        <div class="badge">+3 Escamotage</div>
+      </article>
+      <div class="quick-grid">
+        <button class="quick tap-roll" data-roll="1d20+11" data-label="Escamotage avec Zarok"><b>Escamotage</b><span>Ancalagon +8, bonus familier +3</span></button>
+      </div>
+      <article class="card"><span class="label">Notes</span><textarea id="familiarNotes" rows="7" placeholder="Notes de jeu sur Zarok…"></textarea></article>
+    </section>
+
+    <section class="view" data-view="gemmaline">
+      <h2>Gemmaline</h2>
+      <p class="muted">Recherche un sort ou un don puis importe-le dans la fiche. La connexion est directe depuis Android ; l’élément choisi est ensuite conservé localement.</p>
+      <article class="card search-card">
+        <div class="segmented"><button class="active" data-kind="spell">Sort</button><button data-kind="feat">Don</button></div>
+        <input id="gemQuery" placeholder="Ex. Armure de mage, Vigueur draconique…" />
+        <button id="gemSearch" class="primary">Rechercher sur Gemmaline</button>
+        <details><summary>Importer directement une URL Gemmaline</summary><input id="gemUrl" placeholder="https://www.gemmaline.com/..." /><button id="gemImportUrl" class="smallbtn wide">Importer l'URL</button></details>
+      </article>
+      <div id="gemStatus" class="status"></div>
+      <div id="gemResults" class="list"></div>
+    </section>
+  </main>
+
+  <nav class="bottomnav" aria-label="Navigation principale">
+    <button class="active" data-target="fiche"><span>◈</span><small>Fiche</small></button>
+    <button data-target="competences"><span>⌁</span><small>Comp.</small></button>
+    <button data-target="combat"><span>⚔</span><small>Combat</small></button>
+    <button data-target="magie"><span>✦</span><small>Magie</small></button>
+    <button data-target="dons"><span>◆</span><small>Dons</small></button>
+    <button data-target="familier"><span>♢</span><small>Zarok</small></button>
+    <button data-target="gemmaline"><span>⌕</span><small>Gem</small></button>
+  </nav>
+
+  <div id="diceLayer" aria-live="polite"></div>
+  <dialog id="detailDialog"><button class="dialog-close" id="dialogClose">×</button><div id="dialogBody"></div></dialog>
+
+  <script src="app.js" defer></script>
+</body>
+</html>
